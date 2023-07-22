@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6FCCCF9A-0024-4142-AFD4-6226AA493794}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{6DD50F42-651C-4BE2-B88D-C69C6F42F039}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WalkingDeath", "src\WalkingDeath\WalkingDeath.csproj", "{DB698DCE-D429-4D4F-AFF7-ADF960C7001A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WalkingDeath.Tests", "test\WalkingDeath.Tests\WalkingDeath.Tests.csproj", "{84066B9B-DD1F-4FF4-9038-36996F14AD65}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "version", "version", "{A4CB0CF1-BE83-4AFB-B43B-AFCE2525C095}"
+	ProjectSection(SolutionItems) = preProject
+		tag.version = tag.version
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB698DCE-D429-4D4F-AFF7-ADF960C7001A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB698DCE-D429-4D4F-AFF7-ADF960C7001A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB698DCE-D429-4D4F-AFF7-ADF960C7001A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB698DCE-D429-4D4F-AFF7-ADF960C7001A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84066B9B-DD1F-4FF4-9038-36996F14AD65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84066B9B-DD1F-4FF4-9038-36996F14AD65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84066B9B-DD1F-4FF4-9038-36996F14AD65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84066B9B-DD1F-4FF4-9038-36996F14AD65}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DB698DCE-D429-4D4F-AFF7-ADF960C7001A} = {6FCCCF9A-0024-4142-AFD4-6226AA493794}
+		{84066B9B-DD1F-4FF4-9038-36996F14AD65} = {6DD50F42-651C-4BE2-B88D-C69C6F42F039}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC01D7AE-AD49-4CEC-BF5C-C9AC43158CAF}
+	EndGlobalSection
+EndGlobal
