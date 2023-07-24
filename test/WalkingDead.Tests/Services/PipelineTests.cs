@@ -20,10 +20,10 @@ public class PipelineTests
         _serviceTwo = new();
         _serviceThree = new();
         _serviceFour = new();
-        _sut = new Pipeline(_serviceOne.Object,
-            _serviceTwo.Object,
-            _serviceThree.Object,
-            _serviceFour.Object);
+        _sut = new Pipeline(new StepOne(_serviceOne.Object),
+            new StepTwo(_serviceTwo.Object),
+            new StepThree(_serviceThree.Object),
+            new StepFour(_serviceFour.Object));
     }
 
     [Test]

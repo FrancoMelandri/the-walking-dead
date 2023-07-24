@@ -1,6 +1,6 @@
 namespace WalkingDead;
 
-public struct FlowContext
+public class FlowContext
 {
     public string Id { get; set; }
 }

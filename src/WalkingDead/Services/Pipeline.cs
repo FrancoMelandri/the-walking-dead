@@ -2,42 +2,27 @@ namespace WalkingDead;
 
 public class Pipeline
 {
-    private readonly IServiceOne _serviceOne;
-    private readonly IServiceTwo _serviceTwo;
-    private readonly IServiceThree _serviceThree;
-    private readonly IServiceFour _serviceFour;
+    private readonly IStepOne _stepOne;
+    private readonly IStepTwo _stepTwo;
+    private readonly IStepThree _stepThree;
+    private readonly IStepFour _stepFour;
 
-    public Pipeline(IServiceOne serviceOne,
-        IServiceTwo serviceTwo,
-        IServiceThree serviceThree,
-        IServiceFour serviceFour)
+    public Pipeline(IStepOne stepOne,
+        IStepTwo stepTwo,
+        IStepThree stepThree,
+        IStepFour stepFour)
     {
-        _serviceOne = serviceOne;
-        _serviceTwo = serviceTwo;
-        _serviceThree = serviceThree;
-        _serviceFour = serviceFour;
+        _stepOne = stepOne;
+        _stepTwo = stepTwo;
+        _stepThree = stepThree;
+        _stepFour = stepFour;
     }
 
     public string Flow(FlowContext context)
-    {
-        var first = _serviceOne.Action(new ServiceOneRequest { Id = context.Id });
-        if (first != null)
-        {
-            var second = _serviceTwo.Action(new ServiceTwoRequest { Id = first.Id });
-            if (second != null)
-            {
-                var third = _serviceThree.Action(new ServiceThreeRequest { Id = second.Id });
-                if (third != null)
-                {
-                    var fourth = _serviceFour.Action(new ServiceFourRequest { Id = third.Id });
-                    if (fourth != null)
-                        return fourth.Id;
-                    return "error-4";
-                }
-                return "error-3";
-            }
-            return "error-2";
-        }
-        return "error-1";
-    }
+        =>_stepOne
+                .Forward(new FlowReducer { FlowContext = context })
+                .Bind(_stepTwo.Forward)
+                .Bind(_stepThree.Forward)
+                .Bind(_stepFour.Forward)
+                .Match(_ => _.Action4.Id, _ => _);
 }
