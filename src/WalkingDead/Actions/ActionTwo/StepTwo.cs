@@ -17,9 +17,9 @@ public class StepTwo : IStepTwo
 
     public Either<string, FlowReducer> Forward(FlowReducer flow)
         => _serviceTwo
-            .Action(new ServiceTwoRequest { Id = flow.Action1.Id })
+            .Action(new ServiceTwoRequest { Id = flow.Action1.Unwrap().Id })
             .ToOption()
-            .Map(_ => flow.Tee(__ => __.Action2 = _))
+            .Map(_ => flow.Tee(__ => __.Action2 = _.ToOption()))
             .Match(Either<string, FlowReducer>.Right,
                    () => Either<string, FlowReducer>.Left("error-2"));
 }

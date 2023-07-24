@@ -1,3 +1,5 @@
+using TinyFp.Extensions;
+
 namespace WalkingDead;
 
 public class Pipeline
@@ -20,9 +22,9 @@ public class Pipeline
 
     public string Flow(FlowContext context)
         =>_stepOne
-                .Forward(new FlowReducer { FlowContext = context })
+                .Forward(new FlowReducer { FlowContext = context.ToOption() })
                 .Bind(_stepTwo.Forward)
                 .Bind(_stepThree.Forward)
                 .Bind(_stepFour.Forward)
-                .Match(_ => _.Action4.Id, _ => _);
+                .Match(_ => _.Action4.Unwrap().Id, _ => _);
 }
