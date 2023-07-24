@@ -1,6 +1,6 @@
 using TinyFp;
 
-namespace WalkingDeath;
+namespace WalkingDead;
 
 public class Pipeline
 {

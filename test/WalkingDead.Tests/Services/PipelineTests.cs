@@ -2,7 +2,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using TinyFp;
 
-namespace WalkingDeath;
+namespace WalkingDead;
 
 public class PipelineTests
 {

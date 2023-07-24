@@ -1,3 +1,3 @@
-# walking-death
+# the-walking-dead
 
-walking death approach
+the walking dead approach
