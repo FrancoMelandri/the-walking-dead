@@ -23,4 +23,3 @@ public class StepOne : IStepOne
             .Match(Either<string, FlowReducer>.Right,
                    () => Either<string, FlowReducer>.Left("error-1"));
 }
-

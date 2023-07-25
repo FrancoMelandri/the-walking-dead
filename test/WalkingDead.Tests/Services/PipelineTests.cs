@@ -20,10 +20,16 @@ public class PipelineTests
         _serviceTwo = new();
         _serviceThree = new();
         _serviceFour = new();
-        _sut = new Pipeline(new StepOne(_serviceOne.Object),
-            new StepTwo(_serviceTwo.Object),
-            new StepThree(_serviceThree.Object),
-            new StepFour(_serviceFour.Object));
+
+        var stepOne = new StepOneAhead(new StepOne(_serviceOne.Object));
+        var stepTwo = new StepTwoAhead(new StepTwo(_serviceTwo.Object));
+        var stepThree = new StepThreeAhead(new StepThree(_serviceThree.Object));
+        var stepFour = new StepFourAhead(new StepFour(_serviceFour.Object));
+
+        _sut = new Pipeline(stepOne,
+            stepTwo,
+            stepThree,
+            stepFour);
     }
 
     [Test]
