@@ -1,8 +1,13 @@
-using TinyFp.Extensions;
+using TinyFp;
 
 namespace WalkingDead;
 
-public class Pipeline
+public interface IPipeline
+{
+    Either<string, Unit> Execute(FlowReducer reducer);
+}
+
+public class Pipeline : IPipeline
 {
     private readonly IStepOne _stepOne;
     private readonly IStepTwo _stepTwo;
@@ -20,11 +25,11 @@ public class Pipeline
         _stepFour = stepFour;
     }
 
-    public string Flow(FlowContext context)
+    public Either<string, Unit> Execute(FlowReducer reducer)
         =>_stepOne
-            .Forward(new FlowReducer { FlowContext = context.ToOption() })
+            .Forward(reducer)
             .Bind(_stepTwo.Forward)
             .Bind(_stepThree.Forward)
             .Bind(_stepFour.Forward)
-            .Match(_ => _.Action4.Unwrap().Id, _ => _);
+            .Match(_ => Either<string, Unit>.Right(Unit.Default), _ => _);
 }

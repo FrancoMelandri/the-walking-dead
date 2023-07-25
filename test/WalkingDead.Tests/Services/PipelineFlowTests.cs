@@ -1,13 +1,12 @@
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using TinyFp;
 
 namespace WalkingDead;
 
-public class PipelineTests
+public class PipelineFlowTests
 {
-    private Pipeline _sut;
+    private PipelineFlow _sut;
     private Mock<IServiceOne> _serviceOne;
     private Mock<IServiceTwo> _serviceTwo;
     private Mock<IServiceThree> _serviceThree;
@@ -40,10 +39,11 @@ public class PipelineTests
                             new StepFour(_serviceFour.Object),
                             _stepRepository.Object));
 
-        _sut = new Pipeline(stepOne,
+        var pipeline = new Pipeline(stepOne,
             stepTwo,
             stepThree,
             stepFour);
+        _sut = new PipelineFlow(pipeline);
     }
 
     [Test]
@@ -59,7 +59,7 @@ public class PipelineTests
         };
         var result = _sut.Flow(context);
 
-        result.Should().Be("error-1");
+        result.UnwrapLeft().Should().Be("error-1");
         _stepRepository
             .Verify(m => m.Upsert(It.IsAny<StepEntity>()),
                                   Times.Never);
@@ -83,7 +83,7 @@ public class PipelineTests
             Id = "hello"
         };
         var result = _sut.Flow(context);
-        result.Should().Be("error-2");
+        result.UnwrapLeft().Should().Be("error-2");
 
         _stepRepository
             .Verify(m => m.Upsert(It.Is<StepEntity>(p => p.Step == "Step1")));
@@ -113,7 +113,7 @@ public class PipelineTests
             Id = "hello"
         };
         var result = _sut.Flow(context);
-        result.Should().Be("error-3");
+        result.UnwrapLeft().Should().Be("error-3");
         _stepRepository
             .Verify(m => m.Upsert(It.Is<StepEntity>(p => p.Step == "Step1")));
         _stepRepository
@@ -148,7 +148,7 @@ public class PipelineTests
             Id = "hello"
         };
         var result = _sut.Flow(context);
-        result.Should().Be("error-4");
+        result.UnwrapLeft().Should().Be("error-4");
         _stepRepository
             .Verify(m => m.Upsert(It.Is<StepEntity>(p => p.Step == "Step1")));
         _stepRepository
@@ -184,7 +184,7 @@ public class PipelineTests
             Id = "hello"
         };
         var result = _sut.Flow(context);
-        result.Should().Be("HelloWorld");
+        result.IsRight.Should().BeTrue();
 
         _stepRepository
             .Verify(m => m.Upsert(It.Is<StepEntity>(p => p.Step == "Step1")));
