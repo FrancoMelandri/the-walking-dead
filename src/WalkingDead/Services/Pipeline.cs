@@ -22,9 +22,9 @@ public class Pipeline
 
     public string Flow(FlowContext context)
         =>_stepOne
-                .Forward(new FlowReducer { FlowContext = context.ToOption() })
-                .Bind(_stepTwo.Forward)
-                .Bind(_stepThree.Forward)
-                .Bind(_stepFour.Forward)
-                .Match(_ => _.Action4.Unwrap().Id, _ => _);
+            .Forward(new FlowReducer { FlowContext = context.ToOption() })
+            .Bind(_stepTwo.Forward)
+            .Bind(_stepThree.Forward)
+            .Bind(_stepFour.Forward)
+            .Match(_ => _.Action4.Unwrap().Id, _ => _);
 }
