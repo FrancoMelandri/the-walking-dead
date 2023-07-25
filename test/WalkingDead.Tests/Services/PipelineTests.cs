@@ -27,9 +27,18 @@ public class PipelineTests
                         new StepOneMemento(
                             new StepOne(_serviceOne.Object),
                             _stepRepository.Object));
-        var stepTwo = new StepTwoAhead(new StepTwo(_serviceTwo.Object));
-        var stepThree = new StepThreeAhead(new StepThree(_serviceThree.Object));
-        var stepFour = new StepFourAhead(new StepFour(_serviceFour.Object));
+        var stepTwo = new StepTwoAhead(
+                        new StepTwoMemento(
+                            new StepTwo(_serviceTwo.Object),
+                            _stepRepository.Object));
+        var stepThree = new StepThreeAhead(
+                        new StepThreeMemento(
+                            new StepThree(_serviceThree.Object),
+                            _stepRepository.Object));
+        var stepFour = new StepFourAhead(
+                        new StepFourMemento(
+                            new StepFour(_serviceFour.Object),
+                            _stepRepository.Object));
 
         _sut = new Pipeline(stepOne,
             stepTwo,
@@ -78,6 +87,9 @@ public class PipelineTests
 
         _stepRepository
             .Verify(m => m.Upsert(It.Is<StepEntity>(p => p.Step == "Step1")));
+        _stepRepository
+            .Verify(m => m.Upsert(It.IsAny<StepEntity>()),
+                                  Times.Exactly(1));
     }
 
     [Test]
@@ -102,6 +114,14 @@ public class PipelineTests
         };
         var result = _sut.Flow(context);
         result.Should().Be("error-3");
+        _stepRepository
+            .Verify(m => m.Upsert(It.Is<StepEntity>(p => p.Step == "Step1")));
+        _stepRepository
+            .Verify(m => m.Upsert(It.Is<StepEntity>(p => p.Step == "Step2")));
+        _stepRepository
+            .Verify(m => m.Upsert(It.IsAny<StepEntity>()),
+                                  Times.Exactly(2));
+
     }
 
     [Test]
@@ -129,6 +149,15 @@ public class PipelineTests
         };
         var result = _sut.Flow(context);
         result.Should().Be("error-4");
+        _stepRepository
+            .Verify(m => m.Upsert(It.Is<StepEntity>(p => p.Step == "Step1")));
+        _stepRepository
+            .Verify(m => m.Upsert(It.Is<StepEntity>(p => p.Step == "Step2")));
+        _stepRepository
+            .Verify(m => m.Upsert(It.Is<StepEntity>(p => p.Step == "Step3")));
+        _stepRepository
+            .Verify(m => m.Upsert(It.IsAny<StepEntity>()),
+                                  Times.Exactly(3));
     }
 
     [Test]
@@ -156,5 +185,17 @@ public class PipelineTests
         };
         var result = _sut.Flow(context);
         result.Should().Be("HelloWorld");
+
+        _stepRepository
+            .Verify(m => m.Upsert(It.Is<StepEntity>(p => p.Step == "Step1")));
+        _stepRepository
+            .Verify(m => m.Upsert(It.Is<StepEntity>(p => p.Step == "Step2")));
+        _stepRepository
+            .Verify(m => m.Upsert(It.Is<StepEntity>(p => p.Step == "Step3")));
+        _stepRepository
+            .Verify(m => m.Upsert(It.Is<StepEntity>(p => p.Step == "Step4")));
+        _stepRepository
+            .Verify(m => m.Upsert(It.IsAny<StepEntity>()),
+                                  Times.Exactly(4));
     }
 }
